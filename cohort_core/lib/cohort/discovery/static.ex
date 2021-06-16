@@ -27,12 +27,12 @@ defmodule Cohort.Discovery.Static do
   end
 
   def init(nodes) do
-    table_by_id = :ets.new(@table_by_id_name, [:set, :protected])
-    table_by_tag = :ets.new(@table_by_tag_name, [:bag, :protected])
+    table_by_id = :ets.new(@table_by_id_name, [:set, :protected, read_concurrency: true])
+    table_by_tag = :ets.new(@table_by_tag_name, [:bag, :protected, read_concurrency: true])
 
     # There's no function in ets that just retreives all values as a list
     # so just store them for a faster retreival.
-    table_all = :ets.new(@table_all_name, [:set, :protected])
+    table_all = :ets.new(@table_all_name, [:set, :protected, read_concurrency: true])
 
     nodes
     |> Enum.each(fn node ->
