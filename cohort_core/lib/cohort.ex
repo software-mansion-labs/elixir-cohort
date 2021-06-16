@@ -1,3 +1,2 @@
 defmodule Cohort do
-
 end
