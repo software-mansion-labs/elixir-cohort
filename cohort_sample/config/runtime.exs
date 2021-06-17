@@ -1,6 +1,7 @@
 import Config
 
-config :cohort_sample, Cohort,
+config :cohort_core,
+  balancer: {Cohort.Sample.Balancer, nil},
   discovery: {
     Cohort.Discovery.Static,
     [

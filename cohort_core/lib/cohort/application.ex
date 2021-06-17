@@ -7,6 +7,8 @@ defmodule Cohort.Application do
 
   @impl true
   def start(_type, _args) do
+    Cohort.init()
+
     children = [
       # Starts a worker by calling: Cohort.Worker.start_link(arg)
       # {Cohort.Worker, arg}

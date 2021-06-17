@@ -17,7 +17,7 @@ defmodule Cohort.Discovery.Static do
   @table_all_key :all
 
   @impl true
-  def init([]) do
+  def handle_init([]) do
     raise ArgumentError,
       message: """
       Failed to initialize Cohort.Discovery.Static module.
@@ -26,7 +26,7 @@ defmodule Cohort.Discovery.Static do
       """
   end
 
-  def init(nodes) do
+  def handle_init(nodes) do
     table_by_id = :ets.new(@table_by_id_name, [:set, :protected, read_concurrency: true])
     table_by_tag = :ets.new(@table_by_tag_name, [:bag, :protected, read_concurrency: true])
 
@@ -59,12 +59,12 @@ defmodule Cohort.Discovery.Static do
   end
 
   @impl true
-  def get_nodes(state(table_all: table_all)) do
+  def handle_get_nodes(state(table_all: table_all)) do
     {:ok, :ets.lookup_element(table_all, @table_all_key, 2)}
   end
 
   @impl true
-  def get_nodes_by_tag(tag, state(table_by_tag: table_by_tag)) do
+  def handle_get_nodes_by_tag(tag, state(table_by_tag: table_by_tag)) do
     try do
       {:ok, :ets.lookup_element(table_by_tag, tag, 2)}
     rescue
@@ -74,7 +74,7 @@ defmodule Cohort.Discovery.Static do
   end
 
   @impl true
-  def get_node_by_id(id, state(table_by_id: table_by_id)) do
+  def handle_get_node_by_id(id, state(table_by_id: table_by_id)) do
     try do
       {:ok, :ets.lookup_element(table_by_id, id, 2)}
     rescue
